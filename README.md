@@ -16,9 +16,6 @@ conda install -c pytorch pytorch==1.9.0 torchvision==0.10.0
 pip install scipy
 ```
 
-# Datasets
-Please download the Imagenet Dataset. 
-
 # ResNet18 and Leaky ReLU
 All used ResNet18 and Leaky ReLU models can be downloaded from here. Please put them in ResNet18().
 
@@ -48,9 +45,3 @@ $ python Leaky ReLU.py
 $ python Resnet18.py
 $ python Leaky ReLU.py
 ```
-
-# Run ResNet-50 model trained on ImageNet using different criteria when pruning at approximately 80% and 90% weight sparsity.
- ```shell
-$ python Imagenet.py
-```
-Set a new download directory for `'model = torchvision.models.resnet50(pretrained=True)'`, we need to export `'TORCH_HOME=/torch_cache'`
