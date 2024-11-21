@@ -33,12 +33,11 @@ class Cutout(object):
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 transform_train = transforms.Compose([
-        transforms.RandomCrop(32, padding=4),  # 先四周填充0，在吧图像随机裁剪成32*32
-        transforms.RandomHorizontalFlip(),  # 图像一半的概率翻转，一半的概率不翻转
+        transforms.RandomCrop(32, padding=4),  
+        transforms.RandomHorizontalFlip(), 
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-        Cutout(n_holes=1, length=16)  # R,G,B每层的归一化用到的均值和方差
-    ])
+        Cutout(n_holes=1, length=16) 
  
 transform_test = transforms.Compose([
         transforms.ToTensor(),
@@ -104,7 +103,6 @@ hooks = []
 for idx in indices:
     hooks.append(ConvEntropyHook(conv_modules[idx], idx))
     
-# 添加计算平均信息熵的类
 class LayerEntropyHook:
     def __init__(self, module, layer_name):
    
@@ -119,9 +117,6 @@ entropy_hooks = [LayerEntropyHook(getattr(model, layer_name), name) for layer_na
 
 # Define a function to calculate entropy
 def calculate_entropy(tensor):
-    epsilon = 1e-10
-    tensor = torch.abs(tensor) + epsilon
-    entropy = -torch.sum(tensor * torch.log2(tensor), dim=tuple(range(1, tensor.dim())))
     return entropy
 
 
@@ -177,10 +172,8 @@ for epoch in range(150):  # loop over the dataset
     train_loss = running_loss / len(trainloader)
     train_losses.append(train_loss)
     
-    # 记录信息熵到WandB
     wandb.log({'epoch': epoch, 'accuracy': train_acc, 'loss': train_loss})
-    
-    # 记录各层信息熵到WandB
+
     for hook in entropy_hooks:
         wandb.log({f'{hook.layer_name}_entropy': torch.mean(torch.tensor(hook.entropies))})
         
