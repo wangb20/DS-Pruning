@@ -5,13 +5,11 @@ This is the official implementation for DS-Pruning: Harnessing Dying Neurons for
 In this paper, we challenge the traditional view of "dying neurons" in deep neural network training. Conventionally, dying neurons—neurons that cease to activate—are seen as problematic, often linked to optimization challenges and a reduction in model adaptability during continual learning. However, we offer a novel perspective by investigating how dying neurons can contribute to network sparsity, particularly in structured pruning. Through a systematic exploration of hyperparameter configurations, we reveal that dying neurons can be harnessed to enhance structured pruning algorithms effectively. Our approach, termed "DS-Pruning," introduces a method to regulate the occurrence of dying neurons, enabling dynamic sparsification during training. This method is both straightforward and broadly applicable, outperforming existing structured pruning techniques while achieving competitive results with popular state-of-the-art methods. These findings suggest that dying neurons can serve as an efficient mechanism in sparsity-aware pruning for network compression and resource optimization via the behaviour analysis of individual neurons, paving a new pathway for more efficient and performant deep learning models.
 
 # Results
-![1](https://github.com/wangbst/ExplainableP/assets/97005040/d2d1bf37-9494-4b78-ac21-3eadaf3badf0) 
 
 ![BS](https://github.com/wangbst/ExplainableP/assets/97005040/ed999e78-f198-42fb-a556-6f308ac0a163)![LR](https://github.com/wangbst/ExplainableP/assets/97005040/ac4abc77-595f-4d42-9a1f-4e81b2bb2432)![Regularization](https://github.com/wangbst/ExplainableP/assets/97005040/2c054748-7efc-434c-b321-90650f35ded3) 
 
 ![SGD noise](https://github.com/wangbst/ExplainableP/assets/97005040/9fcbda8e-70dc-457f-a219-ae6afa3599ae) ![SGD](https://github.com/wangbst/ExplainableP/assets/97005040/ee9296ec-fabb-4b5b-83f7-303cca0c35b9)
 
-![2](https://github.com/wangbst/ExplainableP/assets/97005040/f4196e5d-bbe7-4362-a966-9f8235cdb0be) ![3](https://github.com/wangbst/ExplainableP/assets/97005040/bb2f2591-617a-4a28-bd7a-f7ec9393de88) ![4](https://github.com/wangbst/ExplainableP/assets/97005040/eb9e9ee3-f95f-4c00-9c52-ecb43afa40cc) ![5](https://github.com/wangbst/ExplainableP/assets/97005040/c3bd0cfa-7af4-40a4-86a3-c2f92de4d0e8) ![result](https://github.com/wangbst/ExplainableP/assets/97005040/571ae237-939e-49cc-b1b1-c7904e42c73a)
 
 # Dependencies
 ```shell
