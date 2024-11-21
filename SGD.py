@@ -87,7 +87,6 @@ class LayerEntropyHook:
     def close(self):
         self.hook.remove()
 
-# 添加对输入层和各卷积层的平均信息熵的计算
 layer_names = ['conv1'] + [f'layer{i}' for i in range(1, 5)] + ['fc']
 # Instantiate LayerEntropyHook for each layer
 entropy_hooks = [LayerEntropyHook(getattr(model, layer_name), name) for layer_name, name in zip(layer_names, layer_names)]
@@ -149,10 +148,9 @@ for epoch in range(100):  # loop over the dataset
     train_loss = running_loss / len(trainloader)
     train_losses.append(train_loss)
     
-    # 记录信息熵到WandB
+
     wandb.log({'epoch': epoch, 'accuracy': train_acc, 'loss': train_loss})
     
-    # 记录各层信息熵到WandB
     for hook in entropy_hooks:
         wandb.log({f'{hook.layer_name}_entropy': torch.mean(torch.tensor(hook.entropies))})
         
