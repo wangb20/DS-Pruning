@@ -82,11 +82,6 @@ class ConvEntropyHook:
 hooks = []
 for idx in indices:
     hooks.append(ConvEntropyHook(conv_modules[idx], idx))
-    
-
-# Create a list to store weight changes for each convolutional layer
-weight_changes = [[] for _ in indices]
-weight_changes1 = [[] for _ in indices]
 
 # 添加计算平均信息熵的类
 class LayerEntropyHook:
@@ -148,9 +143,6 @@ for epoch in range(100):  # loop over the dataset
         outputs = model(inputs)
         loss = criterion(outputs, labels)
         loss.backward()
-        
-        # Gradient Clipping
-        utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
         
         optimizer.step()
         
@@ -221,21 +213,6 @@ for epoch in range(100):  # loop over the dataset
     # Perform pruning based on KL divergence and entropy reduction
     for idx, layer_idx in enumerate(indices):
         for ch_idx, entropies_ch in enumerate(entropies[layer_idx]):
-            prev_entropy = entropies[layer_idx][ch_idx][epoch - 1] if epoch > 0 else entropies[layer_idx][ch_idx][0]
-            curr_entropy = entropies[layer_idx][ch_idx][epoch]
-            entropy_reduction = prev_entropy - curr_entropy
-            
-            if entropy_reduction < 0:  # If entropy reduced (bad)
-                kl_divergence += abs(entropy_reduction)
-            
-            if entropy_reduction < 0 and kl_divergences[epoch]-- kl_divergences[epoch - 1] > 0:  # If entropy reduced (bad) and KL divergence is non-zero
-                
-                layer = conv_modules[layer_idx]
-                if hasattr(layer, 'bias') and layer.bias is not None:
-                    layer.bias.data[ch_idx].zero_()
-                layer.weight.data[ch_idx].zero_()
-                    
-                pruned_neurons_epoch += 1
                 
     pruned_neurons.append(pruned_neurons_epoch)
     kl_divergences.append(kl_divergence)
