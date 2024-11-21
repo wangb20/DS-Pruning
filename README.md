@@ -8,9 +8,6 @@ In this paper, we challenge the traditional view of "dying neurons" in deep neur
 
 ![BS](https://github.com/wangbst/ExplainableP/assets/97005040/ed999e78-f198-42fb-a556-6f308ac0a163)![LR](https://github.com/wangbst/ExplainableP/assets/97005040/ac4abc77-595f-4d42-9a1f-4e81b2bb2432)![Regularization](https://github.com/wangbst/ExplainableP/assets/97005040/2c054748-7efc-434c-b321-90650f35ded3) 
 
-![SGD noise](https://github.com/wangbst/ExplainableP/assets/97005040/9fcbda8e-70dc-457f-a219-ae6afa3599ae) ![SGD](https://github.com/wangbst/ExplainableP/assets/97005040/ee9296ec-fabb-4b5b-83f7-303cca0c35b9)
-
-
 # Dependencies
 ```shell
 conda create -n myenv python=3.7
