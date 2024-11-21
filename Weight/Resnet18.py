@@ -73,9 +73,7 @@ model = model.to(device)
 
 # Prune 90% of weights across all layers
 def prune_weights(model, amount=0.75): # 0.8, 0.85, 0.9, 0.95, 0.97, 0.98
-    for name, module in model.named_modules():
-        if isinstance(module, nn.Conv2d):
-            prune.l1_unstructured(module, name='weight', amount=amount)
+    
 
 # Apply weight pruning
 prune_weights(model, amount=0.75)
@@ -182,15 +180,6 @@ for epoch in range(250):  # loop over the dataset
         # Print statistics
         running_loss += loss.item()
         
-        if i % 10 == 9:
-            for idx, layer_idx in enumerate(indices):
-                layer = conv_modules[layer_idx]
-                weight = layer.weight.data.cpu().numpy()
-            
-                weight_changes[idx].append([np.mean(weight[i]) for i in range(weight.shape[0])])
-                
-                weight_change1 = np.mean(weight)
-                weight_changes1[idx].append(weight_change1)
         
     # Calculate training error
     train_loss = running_loss / len(trainloader)
@@ -244,21 +233,7 @@ for epoch in range(250):  # loop over the dataset
     # Perform pruning based on KL divergence and entropy reduction
     for idx, layer_idx in enumerate(indices):
         for ch_idx, entropies_ch in enumerate(entropies[layer_idx]):
-            prev_entropy = entropies[layer_idx][ch_idx][epoch - 1] if epoch > 0 else entropies[layer_idx][ch_idx][0]
-            curr_entropy = entropies[layer_idx][ch_idx][epoch]
-            entropy_reduction = prev_entropy - curr_entropy
-            
-            if entropy_reduction < 0:  
-                kl_divergence += abs(entropy_reduction)
-            
-            if entropy_reduction < 0 and kl_divergences[epoch]-- kl_divergences[epoch - 1] > 0:  # If entropy reduced (bad) and KL divergence is non-zero
-                
-                layer = conv_modules[layer_idx]
-                if hasattr(layer, 'bias') and layer.bias is not None:
-                    layer.bias.data[ch_idx].zero_()
-                layer.weight.data[ch_idx].zero_()
-                    
-                pruned_neurons_epoch += 1
+        
                 
     kl_divergences.append(kl_divergence)
     pruned_neurons.append(pruned_neurons_epoch)
