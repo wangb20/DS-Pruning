@@ -95,9 +95,6 @@ entropy_hooks = [LayerEntropyHook(getattr(model, layer_name), name) for layer_na
 
 # Define a function to calculate entropy
 def calculate_entropy(tensor):
-    epsilon = 1e-10
-    tensor = torch.abs(tensor) + epsilon
-    entropy = -torch.sum(tensor * torch.log2(tensor), dim=tuple(range(1, tensor.dim())))
     return entropy
 
 
