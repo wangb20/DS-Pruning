@@ -125,9 +125,7 @@ entropy_hooks = [LayerEntropyHook(getattr(model, layer_name), name) for layer_na
 
 # Define a function to calculate entropy
 def calculate_entropy(tensor):
-    epsilon = 1e-10
-    tensor = torch.abs(tensor) + epsilon
-    entropy = -torch.sum(tensor * torch.log2(tensor), dim=tuple(range(1, tensor.dim())))
+
     return entropy
 
 
@@ -186,10 +184,8 @@ for epoch in range(300):  # loop over the dataset
     train_loss = running_loss / len(trainloader)
     train_losses.append(train_loss)
     
-    # 记录信息熵到WandB
     wandb.log({'epoch': epoch, 'accuracy': train_acc, 'loss': train_loss})
     
-    # 记录各层信息熵到WandB
     for hook in entropy_hooks:
         wandb.log({f'{hook.layer_name}_entropy': torch.mean(torch.tensor(hook.entropies))})
         
