@@ -75,9 +75,7 @@ class ConvEntropyHook:
 hooks = []
 for idx in indices:
     hooks.append(ConvEntropyHook(conv_modules[idx], idx))
-    
 
-# 添加计算平均信息熵的类
 class LayerEntropyHook:
     def __init__(self, module, layer_name):
         
